@@ -1,0 +1,33 @@
+{% extends 'basetpl/default.html' %}
+<div style="margin:20px 0; background-color: aquamarine">
+    <ul class="messages">
+        {% if message %}
+          <li>{{ message }}</li>
+        {% endif %}
+    </ul>
+</div>
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h1>Страница авторизации</h1>
+        <br/>
+        {% if user.is_authenticated %}
+            <h2>Вы уже авторизовались!</h2>
+        {% else %}
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username" placeholder="Введите имя пользователя">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Введите пароль">
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </form>
+            <br/>
+            <div class="mb-3">
+                Нет аккаунта? <a href="/signup/">Зарегистрируйтесь здесь</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

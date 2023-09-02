@@ -1,0 +1,47 @@
+{% extends 'basetpl/default.html' %}
+{% load custom_tags %}
+{% block content %}
+    <h1>Все новости</h1>
+    <p style="text-align:right;">
+        <a href="/news/create/">Добавить новость</a>
+    </p>
+    <hr>
+    {% if news %}
+        <table cellpadding="15" width="100%" style="text-align:left">
+            <tr style="border-bottom:solid 2px grey;">
+                <td>Заголовок</td>
+                <td>Дата публикации</td>
+                <td>Текст</td>
+            </tr>
+            {% for new in news %}
+                <tr style="border-bottom:solid 1px grey;">
+                    <td>{{ new.name }}</td>
+                    <td>{{ new.date }}</td>
+                    <td>{{ new.content|safe }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>новостей нет!</h2>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        {% if page_obj.has_previous %}
+            <a href="?{% url_replace page=1 %}">1</a>
+            {% if page_obj.previous_page_number != 1 %}
+                ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+            {% endif %}
+        {% endif %}
+
+        {{ page_obj.number }}
+
+        {% if page_obj.has_next %}
+            <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+            {% if paginator.num_pages != page_obj.next_page_number %}
+               ...
+               <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock content %}

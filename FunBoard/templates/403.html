@@ -1,0 +1,10 @@
+{% extends "basetpl/default.html" %}
+
+{% block subtitle %}У вас недостаточно прав{% endblock %}
+{% block meta %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <h2>Доступ запрещен</h2>
+    <p>Чтобы иметь доступ к порталу, нужно верифицировать аккаунт. Это можно сделать <a href="/check_code/">здесь</a></p>
+
+{% endblock %}

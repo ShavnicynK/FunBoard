@@ -1,0 +1,69 @@
+{% extends 'basetpl/default.html' %}
+{% load custom_tags %}
+{% block content %}
+    <h1>Отклики на мои объявления</h1>
+    <hr>
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти">
+    </form>
+    <a href="/reactions/">сбросить параметры</a>
+    <hr>
+    {% if reactions %}
+        <table cellpadding="15" width="100%" style="text-align:left">
+            <tr style="border-bottom:solid 2px grey;">
+                <td>Текст</td>
+                <td>Объявление</td>
+                <td>Дата публикации</td>
+                <td>Статус</td>
+                <td></td>
+            </tr>
+            {% for reaction in reactions %}
+                <tr style="border-bottom:solid 1px grey;">
+                    <td>{{ reaction.content }}</td>
+                    <td>{{ reaction.advertisement.name }}</td>
+                    <td>{{ reaction.date }}</td>
+                    <td>
+                        {% if reaction.status == 'N' %}
+                            Новый
+                        {% elif reaction.status == 'A' %}
+                            Принят
+                        {% elif reaction.status == 'R' %}
+                            Отклонен
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if reaction.status == 'N' %}
+                            <a href="/reaction/{{ reaction.id }}/accept/">Одобрить</a><br>
+                            <a href="/reaction/{{ reaction.id }}/refused/">Отклонить</a><br>
+                        {% endif %}
+
+                        <a href="/reaction/{{ reaction.id }}/delete/">Удалить</a><br>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Объявлений нет!</h2>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        {% if page_obj.has_previous %}
+            <a href="?{% url_replace page=1 %}">1</a>
+            {% if page_obj.previous_page_number != 1 %}
+                ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+            {% endif %}
+        {% endif %}
+
+        {{ page_obj.number }}
+
+        {% if page_obj.has_next %}
+            <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+            {% if paginator.num_pages != page_obj.next_page_number %}
+               ...
+               <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock content %}

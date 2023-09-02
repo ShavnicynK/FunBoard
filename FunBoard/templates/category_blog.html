@@ -1,0 +1,18 @@
+{% extends 'basetpl/default.html' %}
+
+{% block content %}
+    <h1>Блог категории "{{ category.name }}"</h1>
+
+    <hr>
+    {% if advertisements %}
+        {% for advertisement in advertisements %}
+            <div>
+                <h2>{{ advertisement.name }}</h2>
+                <p>{{ advertisement.content|safe }}</p>
+            </div>
+       {% endfor %}
+    {% else %}
+        <h2>Объявлений в данной категории еще нет</h2>
+    {% endif %}
+
+{% endblock content %}

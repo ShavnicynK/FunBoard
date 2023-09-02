@@ -1,0 +1,23 @@
+{% extends 'basetpl/default.html' %}
+{% block content %}
+    <h1>Страница верификации аккаунта</h1>
+    <br/>
+    <div style="margin:20px 0; background-color: aquamarine">
+        <ul class="messages">
+            {% if message %}
+              <li>{{ message }}</li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-6 offset-md-3">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="code">Код подтверждения: </label>
+                <input class="form-control" type="text" name="code">
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
+    </div>
+{% endblock content %}

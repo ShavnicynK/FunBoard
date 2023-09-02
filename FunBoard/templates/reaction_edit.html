@@ -1,0 +1,13 @@
+{% extends 'basetpl/default.html' %}
+
+{% block content %}
+    <h1>Объявление</h1>
+    <hr>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="save">
+    </form>
+{% endblock content %}
